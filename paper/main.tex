@@ -1,0 +1,133 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,booktabs}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\Zp}{\mathbb{Z}_{271}}
+
+\title{A projective plane of order 28 admits no collineation of order 271}
+\author{Yudai Kobayashi}
+\date{November 2026\\[4pt]\small Computer-assisted; not peer reviewed.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We show by an exhaustive computer search that a projective plane of order $28$ has no collineation of order $271$. Such a collineation would give a planar difference family in $\Zp$ with blocks of sizes $13$, $9$, $7$, and there is none. Together with the norm-parity lemma and known results on cyclic planes, it follows that for every order $n<36$ that is not a prime power, a projective plane of order $n$ has no collineation of prime order $p>n+1$.
+\end{abstract}
+
+\section{Introduction}
+
+The existence of a projective plane of order $28$ is open; $28$ is not excluded by the Bruck--Ryser theorem~\cite{BR}. Since $28^2+28+1=813=3\cdot271$, the prime $271$ is the only prime $p>29$ that can be the order of a collineation (Lemma~\ref{l:fpf}).
+
+\begin{theorem}\label{t:main}
+A projective plane of order $28$ has no collineation of order $271$.
+\end{theorem}
+
+\begin{corollary}\label{c:small}
+Let $n<36$ not be a prime power, and let $p>n+1$ be a prime. Then a projective plane of order $n$ has no collineation of order $p$.
+\end{corollary}
+
+For $n=36$ the prime $p=43$ divides $36^2+36+1=1333=31\cdot43$, and we do not know how to treat it.
+
+\emph{Status.} The proof of Theorem~\ref{t:main} rests on one computer search (Section~\ref{s:search}), carried out with a single program; it has not been repeated with an independent implementation. Most derivations and programs were made by AI (Claude, Anthropic) under the author's direction. We found no statement of Theorem~\ref{t:main} or Corollary~\ref{c:small} in the literature we could access, and we make no claim that they are new.
+
+\section{Reduction to a difference family}
+
+Let $\Pi$ be a projective plane of order $n$ with $v=n^2+n+1$ points, and $\sigma$ a collineation of prime order $p$.
+
+\begin{lemma}\label{l:fpf}
+If $p>n+1$, then $\sigma$ fixes no point and no line, and $p\mid v$.
+\end{lemma}
+\begin{proof}
+Let $P$ be a fixed point. The $n+1<p$ lines through $P$ are permuted by $\sigma$ in orbits of length $1$ or $p$, hence are all fixed. Each of them has $n+1<p$ points, which are therefore fixed. These lines cover $\Pi$, so $\sigma=1$. Dually, no line is fixed. All point orbits have length $p$, so $p\mid v$.
+\end{proof}
+
+Now let $n=28$ and $p=271$. There are $R=v/p=3$ point orbits and $3$ line orbits. Choose representatives $x_1,x_2,x_3$ and $y_1,y_2,y_3$ and put
+\[
+D_{ab}=\{\,i\in\Zp : \sigma^i x_a\in y_b\,\}.
+\]
+Then $\sigma^i x_a\in\sigma^k y_b$ if and only if $i-k\in D_{ab}$.
+
+\begin{lemma}\label{l:fam}
+The sets $D_{11},D_{12},D_{13}$ have sizes $13,9,7$ in some order, and every nonzero element of $\Zp$ can be written as $x-y$ with $x\ne y$ in a common $D_{1b}$ in exactly one way. We call such a triple a \emph{planar difference family}.
+\end{lemma}
+\begin{proof}
+Let $i\ne j$. The points $\sigma^ix_1$, $\sigma^jx_1$ lie on exactly one line $\sigma^ky_b$, that is, there is exactly one pair $(b,k)$ with $i-k,\,j-k\in D_{1b}$. Hence $i-j$ has exactly one representation as a difference within a block. The line $\sigma^ky_b$ passes through $x_1$ if and only if $-k\in D_{1b}$, so $\sum_b|D_{1b}|=n+1=29$, and counting differences gives $\sum_b|D_{1b}|(|D_{1b}|-1)=270$. The only solution in non-negative integers is $\{13,9,7\}$.
+\end{proof}
+
+So Theorem~\ref{t:main} follows from:
+
+\begin{theorem}\label{t:fam}
+There is no planar difference family in $\Zp$ with blocks of sizes $13$, $9$, $7$.
+\end{theorem}
+
+\section{The search}\label{s:search}
+
+Let $\{A,B,C\}$ be a planar difference family with $|A|=13$, $|B|=9$, $|C|=7$. For $u\in\Zp^*$ and $t_A,t_B,t_C\in\Zp$, the family $\{uA+t_A,\,uB+t_B,\,uC+t_C\}$ is again a planar difference family. We use this freedom as follows.
+
+For distinct $x,y,z\in A$ put $\lambda=(z-x)/(y-x)\notin\{0,1\}$. Reordering the triple replaces $\lambda$ by an element of its class $\{\lambda,1/\lambda,1-\lambda,1/(1-\lambda),\lambda/(\lambda-1),(\lambda-1)/\lambda\}$. The class of $-1$ is $\{-1,2,1/2\}$; a triple of this class is a $3$-term arithmetic progression $\{w-\delta,w,w+\delta\}$, which represents $\delta$ twice and cannot occur in $A$. The other classes are $45$ in number ($44$ of size $6$ and one of size $2$, since $271\equiv1\pmod 3$). We list them in a fixed order $\Lambda_1,\dots,\Lambda_{45}$ and fix $\lambda_s\in\Lambda_s$.
+
+\begin{lemma}\label{l:norm}
+Up to the operations above we may assume:
+\begin{enumerate}
+\item for some $s$, $\{0,1,\lambda_s\}\subseteq A$ and $A$ contains no triple of class $\Lambda_1,\dots,\Lambda_{s-1}$;
+\item let $d$ be the least element of $\{1,\dots,270\}$ that is not a difference of $A$; the block among $B,C$ that has $d$ as a difference contains $\{0,d\}$;
+\item let $e$ be the least element not a difference of $A$ or of that block; the remaining block contains $\{0,e\}$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(1) Let $s$ be least such that $A$ has a triple of class $\Lambda_s$, and order it as $(x,y,z)$ with $(z-x)/(y-x)=\lambda_s$. Apply $u=1/(y-x)$ and $t_A=-x/(y-x)$. (2), (3) Translate $B$ and $C$; this does not change the differences. The element $d$ exists because $A$ has only $156<270$ differences.
+\end{proof}
+
+The program \texttt{search.cpp} enumerates, for each $s$, all $13$-sets $A\supseteq\{0,1,\lambda_s\}$ with distinct differences, no $3$-term arithmetic progression and no triple of class $\Lambda_1,\dots,\Lambda_{s-1}$, and for each such $A$ all completions $B,C$ normalised as in Lemma~\ref{l:norm}. A candidate element is discarded only if it would repeat a difference, create an arithmetic progression or a triple of an earlier class, or if too few candidates remain. The work is split into $40$ chunks by the first two elements of $A$ outside $\{0,1,\lambda_s\}$.
+
+\paragraph{Result.} All $40$ chunks finished. The program examined $6\,871\,065\,175$ admissible sets $A$ and found no family. The run took $11.0$ hours on $4$ threads (g++ 16.1, MinGW-w64). The per-chunk counts are in \texttt{code/results.txt}. This proves Theorem~\ref{t:fam}, and hence Theorem~\ref{t:main}, assuming the program is correct.
+
+\paragraph{Controls.} The same program, with parameters for $n=13$, $p=61$ (blocks $7,4,3$) and $n=19$, $p=127$ (blocks $9,7,4$), finds $28$ and $8$ normalised families, which fall into $12$ and $4$ classes under the operations above. Both cases occur in the Desarguesian planes $\mathrm{PG}(2,13)$ and $\mathrm{PG}(2,19)$, where the Singer cycle has a subgroup of order $61$, respectively $127$; so the search finds families when they exist.
+
+\section{Proof of Corollary~\ref{c:small}}
+
+The Bruck--Ryser theorem excludes $n=6,14,21,22,30,33$. For the other non-prime-powers $n<36$, a collineation of prime order $p>n+1$ requires $p\mid n^2+n+1$ by Lemma~\ref{l:fpf}. The cases are:
+\begin{center}
+\begin{tabular}{rrrl}
+\toprule
+$n$ & $n^2+n+1$ & $p$ & excluded by \\
+\midrule
+10 & $3\cdot37$ & 37 & norm parity, $q=2$ \\
+12 & $157$ & 157 & norm parity, $q=3$ \\
+15 & $241$ & 241 & norm parity, $q=3$ \\
+18 & $7^3$ & --- & no such $p$ \\
+20 & $421$ & 421 & norm parity, $q=5$ \\
+24 & $601$ & 601 & cyclic plane~\cite{EM} \\
+26 & $19\cdot37$ & 37 & norm parity, $q=2$ \\
+28 & $3\cdot271$ & 271 & Theorem~\ref{t:main} \\
+34 & $3\cdot397$ & 397 & norm parity, $q=2$ \\
+35 & $13\cdot97$ & 97 & norm parity, $q=5$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\emph{Norm parity}~\cite{K18}: if a collineation of odd prime order $p$ has $R$ point orbits of length $p$, and $q\ne p$ is a prime with $-1\in\langle q\bmod p\rangle$, then $R\,v_q(n)$ is even. In each marked case $v_q(n)=1$, $R=v/p$ is odd, and $-1$ is a power of $q$ modulo $p$.
+
+For $n=24$ we have $R=1$, so $\sigma$ acts regularly on the points and the plane is cyclic; there is no cyclic projective plane of order $24$~\cite{EM}.
+
+For $n=28$ the norm-parity lemma does not apply: $v_2(28)=2$ is even, and $7$ has order $135$ modulo $271$, so $-1\notin\langle7\bmod271\rangle$.
+
+\section*{Files}
+\texttt{code/search.cpp} (the search), \texttt{code/run.sh} (the full run), \texttt{code/results.txt} (per-chunk output), \texttt{code/classes.py} (classes of families, used for the controls).
+
+\begin{thebibliography}{9}
+\bibitem{BR} R.~H.~Bruck and H.~J.~Ryser, The nonexistence of certain finite projective planes, \emph{Canad. J. Math.} 1 (1949), 88--93.
+\bibitem{EM} T.~A.~Evans and H.~B.~Mann, On simple difference sets, \emph{Sankhy\=a} 11 (1951), 357--364.
+\bibitem{K18} Y.~Kobayashi, A projective plane of order 18 admits no collineation of order 17, preprint (2026), \url{https://github.com/yudaikobayashi/finite-projective-plane-order-18}, norm-parity lemma.
+\end{thebibliography}
+
+\end{document}

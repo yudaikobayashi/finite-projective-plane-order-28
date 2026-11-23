@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below (attribution is required)."
+title: "A projective plane of order 28 admits no collineation of order 271 (computer-assisted; not peer reviewed)"
+type: article
+authors:
+  - family-names: "Kobayashi"
+    given-names: "Yudai"
+    alias: "yudaikobayashi"
+abstract: "A computer search shows that there is no planar difference family in Z/271 with blocks of sizes 13, 9, 7; hence a projective plane of order 28 has no collineation of order 271. As a corollary, for every non-prime-power order n < 36, a projective plane of order n has no collineation of prime order p > n+1. Derivations and programs were mostly made by AI (Claude, Anthropic) under the author's direction. Not peer reviewed."
+date-released: 2026-11-23
+license: "CC-BY-4.0"
+keywords:
+  - projective plane
+  - collineation
+  - order 28
+  - difference family
