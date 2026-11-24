@@ -38,7 +38,7 @@ Let $n<36$ not be a prime power, and let $p>n+1$ be a prime. Then a projective p
 
 For $n=36$ the prime $p=43$ divides $36^2+36+1=1333=31\cdot43$, and we do not know how to treat it.
 
-\emph{Status.} The proof of Theorem~\ref{t:main} rests on one computer search (Section~\ref{s:search}), carried out with a single program; it has not been repeated with an independent implementation. Most derivations and programs were made by AI (Claude, Anthropic) under the author's direction. We found no statement of Theorem~\ref{t:main} or Corollary~\ref{c:small} in the literature we could access, and we make no claim that they are new.
+\emph{Status.} The proof of Theorem~\ref{t:main} rests on a computer search (Section~\ref{s:search}). It was repeated with a second, separately written program, which gives the same counts at every stage. Both programs were written with the same normalisation and by the same means, so they are not fully independent. Most derivations and programs were made by AI (Claude, Anthropic) under the author's direction. We found no statement of Theorem~\ref{t:main} or Corollary~\ref{c:small} in the literature we could access, and we make no claim that they are new.
 
 \section{Reduction to a difference family}
 
@@ -92,7 +92,11 @@ The program \texttt{search.cpp} enumerates, for each $s$, all $13$-sets $A\supse
 
 \paragraph{Result.} All $40$ chunks finished. The program examined $6\,871\,065\,175$ admissible sets $A$ and found no family. The run took $11.0$ hours on $4$ threads (g++ 16.1, MinGW-w64). The per-chunk counts are in \texttt{code/results.txt}. This proves Theorem~\ref{t:fam}, and hence Theorem~\ref{t:main}, assuming the program is correct.
 
+\paragraph{Re-check.} A second program, \texttt{recheck.cpp}, implements the same normalisation without sharing code with \texttt{search.cpp} (its own computation of the classes $\Lambda_s$, its own pruning and completion, a different splitting of the work). It also finds no family, and the number of admissible sets $A$ agrees with \texttt{search.cpp} in each of the $45$ stages (\texttt{code/stage\_counts.txt}).
+
 \paragraph{Controls.} The same program, with parameters for $n=13$, $p=61$ (blocks $7,4,3$) and $n=19$, $p=127$ (blocks $9,7,4$), finds $28$ and $8$ normalised families, which fall into $12$ and $4$ classes under the operations above. Both cases occur in the Desarguesian planes $\mathrm{PG}(2,13)$ and $\mathrm{PG}(2,19)$, where the Singer cycle has a subgroup of order $61$, respectively $127$; so the search finds families when they exist.
+
+To test that the normalisation loses no family, \texttt{brute.cpp} lists all planar difference families with three blocks of sizes $a>b>c\ge2$ in $\ZZ_p$, for every prime $p\le83$ for which such sizes exist, using only translations ($0$ in each block). For $(p;a,b,c)=(29;5,3,2)$, $(61;7,4,3)$, $(79;7,6,3)$ it finds $8$, $12$, $4$ classes, and for $(53;6,5,2)$, $(71;8,4,2)$, $(79;8,5,2)$, $(83;8,5,3)$ none. In every case \texttt{search.cpp} finds exactly the same classes (\texttt{code/brute\_vs\_search.txt}).
 
 \section{Proof of Corollary~\ref{c:small}}
 
@@ -122,7 +126,7 @@ For $n=24$ we have $R=1$, so $\sigma$ acts regularly on the points and the plane
 For $n=28$ the norm-parity lemma does not apply: $v_2(28)=2$ is even, and $7$ has order $135$ modulo $271$, so $-1\notin\langle7\bmod271\rangle$.
 
 \section*{Files}
-\texttt{code/search.cpp} (the search), \texttt{code/run.sh} (the full run), \texttt{code/results.txt} (per-chunk output), \texttt{code/classes.py} (classes of families, used for the controls).
+\texttt{code/search.cpp} (the search), \texttt{code/run.sh} (the full run), \texttt{code/results.txt} (per-chunk output), \texttt{code/classes.py} (classes of families, used for the controls), \texttt{code/recheck.cpp} and \texttt{code/stage\_counts.txt} (the re-check), \texttt{code/brute.cpp} and \texttt{code/brute\_vs\_search.txt} (the comparison with brute force).
 
 \begin{thebibliography}{9}
 \bibitem{BR} R.~H.~Bruck and H.~J.~Ryser, The nonexistence of certain finite projective planes, \emph{Canad. J. Math.} 1 (1949), 88--93.

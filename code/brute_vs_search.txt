@@ -1,0 +1,9 @@
+29 5 3 2: brute 6720 search 18 | brute 6720 classes 8 search 18 classes 8 equal True 
+53 6 5 2: brute 0 search 0 | brute 0 classes 0 search 0 classes 0 equal True 
+61 7 4 3: brute 33600 search 28 | brute 33600 classes 12 search 28 classes 12 equal True 
+71 8 4 2: brute 0 search 0 | brute 0 classes 0 search 0 classes 0 equal True 
+79 7 6 3: brute 39312 search 4 | brute 39312 classes 4 search 4 classes 4 equal True 
+79 8 5 2: brute 0 search 0 | brute 0 classes 0 search 0 classes 0 equal True 
+83 8 5 3: brute 0 search 0 | brute 0 classes 0 search 0 classes 0 equal True 
+
+[exited with code 0]
